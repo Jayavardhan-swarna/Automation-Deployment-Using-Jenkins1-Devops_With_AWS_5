@@ -1,0 +1,95 @@
+launch 3 instances
+1)Maven server:-
+============
+sudo -i
+yum update -y
+yum install git -y
+yum install java-1.8.0-openjdk -y
+yum install maven
+wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+tar -zxvf apache-maven-3.8.6-bin.tar.gz
+cd apache-maven-3.8.6
+mvn archetype:generate
+	1929
+	codingrad
+	project-5
+
+cd project-5/src/main/webapp/
+vim index.jsp
+(editing)
+
+
+git init
+git add .
+git commit -m "commits"
+git remote add origin2 https://github.com/Jayavardhan-swarna/Automation-Deployment-Using-Jenkins1.git
+git push -u origin2 master
+
+
+
+
+
+
+2)jenkins :-
+========
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+yum install git maven java-1.8.0-openjdk jenkins -y
+systemctl restart jenkins.service
+systemctl status jenkins.service
+
+
+clean compile test package
+
+
+
+3) Tomcat :-
+=========
+
+sudo -i
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.64/bin/apache-tomcat-9.0.64.tar.gz
+tar zxvf apache-tomcat-9.0.64.tar.gz
+yum install java-1.8.0-openjdk -y
+find /  -name context.xml
+
+
+vim /root/apache-tomcat-9.0.64/webapps/manager/META-INF/context.xml
+(comment)
+vim /root/apache-tomcat-9.0.64/webapps/host-manager/META-INF/context.xml
+(comment)
+
+
+vim ../conf/tomcat-users.xml
+<role rolename="manager-gui"/>
+ <role rolename="manager-script"/>
+ <role rolename="manager-jmx"/>
+ <role rolename="manager-status"/>
+ <user username="admin" password="admin" roles="manager-gui, manager-script, manager-jmx, manager-status"/>
+ <user username="deployer" password="deployer" roles="manager-script"/>
+ <user username="tomcat" password="s3cret" roles="manager-gui"/>
+
+
+./shutdown.sh
+./startup.sh
+
+
+4)jenkin :-
+========
+configure the 1st job
+
+post build actions:
+-----------------------
+WAR/EAR files = **/*.war
+Context path = sample
+credentials=>add=>username:deployer, password:deployer=>save
+Tomcat URL = http://54.205.144.28:8080/
+Add container = 9x
+deployer
+deployer
+
+
+
+
+
+
+
